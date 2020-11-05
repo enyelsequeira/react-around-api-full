@@ -3,12 +3,14 @@ const path = require('path');
 const mongoose = require('mongoose');
 const userRouter = require('./routes/users');
 const cardRouter = require('./routes/cards');
+const cors = require('cors');
 
 const app = express();
 // listen to port 3000
 const { PORT = 3000 } = process.env;
 
-app.use(express.json());
+app.use(express.json(), cors());
+
 const connectionURL = 'mongodb://localhost:27017/aroundb';
 
 mongoose

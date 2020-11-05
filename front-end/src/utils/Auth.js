@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://register.nomoreparties.co';
+export const BASE_URL = 'http://localhost:3000';
 
 export const register = (password, email) => {
   return fetch(`${BASE_URL}/signup`, {
@@ -41,6 +41,7 @@ export const authorize = (password, email) => {
     });
 };
 export const checkToken = (token) => {
+  console.log('[TOKEN] ', token);
   return fetch(`${BASE_URL}/users/me`, {
     method: 'GET',
     headers: {
@@ -53,6 +54,7 @@ export const checkToken = (token) => {
       return res.json();
     })
     .then((data) => {
+      console.log('[DATA] ', data);
       return data;
     });
 };

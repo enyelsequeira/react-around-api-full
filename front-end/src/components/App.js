@@ -161,7 +161,7 @@ const App = () => {
     auth
       .checkToken(jwt)
       .then((res) => {
-        setUserEmail(res.data.email);
+        setUserEmail(res.email);
         setLoggedIn(true);
       })
       .then(() => history.push('/'))

@@ -1,0 +1,28 @@
+
+.modal__title{
+    width: 330px;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-style: normal;
+    font-weight: 900;
+    font-size: 24px;
+    line-height: 29px;
+    color: #000000;
+    margin: auto;
+    margin-bottom: 64px;
+    margin-top: 34px;
+  }
+
+  @media screen and (max-width: 320px) {
+    .modal__title{
+    width: 185px;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-style: normal;
+    font-weight: 900;
+    font-size: 18px;
+    line-height: 22px;
+    color: #000000;
+    margin: auto;
+    margin-bottom: 36px;
+    margin-top: 30px;
+    }
+  }

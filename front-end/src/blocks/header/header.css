@@ -1,0 +1,20 @@
+@import url('./__logo/header__logo.css');
+@import url('./__text/header__text.css');
+
+@import url('./__content/header__content.css');
+@import url('./__text-link/header__text-link.css');
+.header {
+  max-width: 882px;
+  margin: auto;
+  border-bottom: 1px solid #545454;
+  margin-bottom: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+@media screen and (max-width: 320px) {
+  .header {
+    max-width: 320px;
+    margin-bottom: 38.25px;
+  }
+}

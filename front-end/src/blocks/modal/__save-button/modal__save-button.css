@@ -1,0 +1,36 @@
+.modal__save-button{
+    width: 358px;
+    color: #FFFFFF;
+    height: 50.15px;
+    border-radius: 2px;
+    margin-bottom: 36px;
+    background: #000000;
+      font-family: 'Inter', 'Arial', sans-serif;
+ 
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 22px;
+    text-align: center;
+  }
+  .modal__save-button:hover{
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.8);
+  }
+
+  @media screen and (max-width: 320px) {
+    .modal__save-button{
+      width: 200px;
+      height: 40px;
+      margin-bottom: 30px;
+        font-family: 'Inter', 'Arial', sans-serif;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 17px;
+      text-align: center;
+      background-color: #000000;
+      border-radius: 2px;
+      color: #FFFFFF;
+      border: none;
+    }
+    }

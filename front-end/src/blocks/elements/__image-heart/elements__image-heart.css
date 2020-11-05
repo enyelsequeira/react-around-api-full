@@ -1,0 +1,14 @@
+
+.elements__image-heart{
+    height: 18.13px;
+    width: 20.76px;
+    background-image: url('../../../images/heart.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    border: none;
+
+}
+
+.elements__image-heart:hover{
+    cursor: pointer;
+}

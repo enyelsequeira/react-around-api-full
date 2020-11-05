@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 
 const Login = ({ heading, buttonText, handleLogin }) => {
-  console.log(handleLogin);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 

@@ -2,8 +2,6 @@
 import React from 'react';
 
 const PopupWithForm = (props) => {
-  console.log(props, 5);
-
   return (
     <div
       className={

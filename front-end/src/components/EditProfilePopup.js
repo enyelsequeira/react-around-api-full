@@ -6,7 +6,6 @@ import Input from './Input';
 import PopupWithForm from './PopUpWithForm';
 
 const EditProfilePopup = (props) => {
-  console.log(props);
   const currentUser = useContext(CurrentUserContext);
   const [name, setName] = useState('');
   const [about, setAbout] = useState('');

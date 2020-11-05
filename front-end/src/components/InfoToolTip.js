@@ -3,7 +3,6 @@ import success from '../images/success.png';
 import fail from '../images/error.png';
 
 const InfoToolTip = ({ valid, isOpen, onClose, popupType }) => {
-  console.log(valid);
   return (
     <div
       className={

@@ -4,10 +4,14 @@ const mongoose = require('mongoose');
 const userRouter = require('./routes/users');
 const cardRouter = require('./routes/cards');
 const cors = require('cors');
+const { createUser, login } = require('./controllers/userController');
+const { requestLogger } = require('./middleware/logger');
+const { errorLogger } = require('express-winston');
 
 const app = express();
 // listen to port 3000
 const { PORT = 3000 } = process.env;
+app.use(requestLogger);
 
 app.use(express.json(), cors());
 
@@ -29,9 +33,14 @@ mongoose
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+// auth user routes
+app.post('/signin', login);
+app.post('/signup', createUser);
+
 app.use('/', userRouter);
 app.use('/', cardRouter);
 
+app.use(errorLogger);
 // in case route is not defined
 app.use((req, res) => {
   res.status(404).send({ message: 'Requested Resource not found' });

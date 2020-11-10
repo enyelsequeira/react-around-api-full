@@ -19,8 +19,7 @@ module.exports = (req, res, next) => {
 
   let user;
 
-  User.findById(payload._id)
-  .then((user) => {
+  User.findById(payload._id).then((user) => {
     req.user = user;
 
     console.log('I HAVE THE USER', req.user);

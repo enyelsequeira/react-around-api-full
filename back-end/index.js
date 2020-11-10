@@ -8,6 +8,7 @@ const cors = require('cors');
 const { createUser, login } = require('./controllers/userController');
 const { requestLogger } = require('./middleware/logger');
 const { errorLogger } = require('express-winston');
+const auth = require('./middleware/auth');
 
 const app = express();
 // listen to port 3000
@@ -37,7 +38,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // auth user routes
 app.post('/signin', login);
 app.post('/signup', createUser);
-
+app.use(auth);
 app.use('/', userRouter);
 app.use('/', cardRouter);
 

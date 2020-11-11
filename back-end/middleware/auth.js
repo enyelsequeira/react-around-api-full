@@ -1,28 +1,34 @@
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const { NODE_ENV, JWT_SECRET } = process.env;
+const AuthError = require('../middleware/errors/AuthError');
+
+const extractBearerToken = (header) => {
+  return header.replace('Bearer ', '');
+};
 
 module.exports = (req, res, next) => {
   const { authorization } = req.headers;
 
-  if (!authorization || !authorization.startsWith('Bearer ')) {
-    return res.status(401).send({ message: 'Authorization Required' });
-  }
+  console.log(11111, authorization);
 
-  const token = authorization.replace('Bearer ', '');
+  if (!authorization || !authorization.startsWith('Bearer ')) {
+    throw new AuthError('Authorization Error');
+  }
+  const token = extractBearerToken(authorization);
   let payload;
 
   try {
-    payload = jwt.verify(token, 'some-secret-key');
+    payload = jwt.verify(
+      token,
+      NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-key'
+    );
+    console.log(payload, 1);
   } catch (err) {
-    return res.status(401).send({ message: 'Authorization Required' });
+    console.log(err, 2);
+    throw new AuthError('Authorization Error');
   }
 
-  let user;
-
-  User.findById(payload._id).then((user) => {
-    req.user = user;
-
-    console.log('I HAVE THE USER', req.user);
-    next();
-  });
+  req.user = payload; // adding the payload to the Request object
+  console.log('THIS IS OUR USER', req.user);
+  next(); // passing the request further along
 };

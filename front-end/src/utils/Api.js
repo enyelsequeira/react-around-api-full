@@ -13,21 +13,23 @@ class Api {
 
   // GET https://around.nomoreparties.co/v1/groupId/cards
   getCardList() {
-    return fetch(`${this._baseUrl}/cards`, {
+    return fetch(this._baseUrl + '/cards', {
       headers: this._headers,
     }).then((res) =>
-      res.ok ? res.json() : Promise.reject(`error${res.statusText}`)
+      res.ok
+        ? res.json()
+        : Promise.reject(`Error!` + res.status + res.statusText)
     );
   }
 
   // GET https://around.nomoreparties.co/v1/groupId/users/me
   getUserInfo() {
-    // console.log(`${this._baseUrl}/users/me`);
-    return fetch(`${this._baseUrl}/users/me`, {
+    return fetch(this._baseUrl + `/users/me`, {
       headers: this._headers,
     }).then((res) =>
-      // console.log('AAA', res);
-      res.ok ? res.json() : Promise.reject(`error${res.statusText}`)
+      res.ok
+        ? res.json()
+        : Promise.reject(`Error!` + res.status + res.statusText)
     );
   }
 
@@ -110,12 +112,4 @@ class Api {
   }
 }
 
-const api = new Api({
-  baseUrl: 'https://around.nomoreparties.co/v1/group-3',
-  headers: {
-    authorization: '9a4eb9c4-eb35-4130-9822-f1a4ffd479bc',
-    'Content-Type': 'application/json',
-  },
-});
-
-export default api;
+export default Api;

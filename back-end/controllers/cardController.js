@@ -1,6 +1,6 @@
 /* eslint-disable comma-dangle */
 /* eslint-disable implicit-arrow-linebreak */
-const Card = require("../models/Card");
+const Card = require('../models/Card');
 
 // logic to get cards
 function getCards(req, res) {
@@ -17,7 +17,7 @@ const createCard = (req, res) => {
       res.status(200).send({ data: card });
     })
     .catch((err) => {
-      if (err.name === "ValidationError") {
+      if (err.name === 'ValidationError') {
         res.status(400).send({ message: err.message });
       } else {
         res.status(500).send({ message: err.message });
@@ -31,7 +31,7 @@ const deleteCard = (req, res) =>
       if (card) {
         return res.status(200).send(card);
       }
-      return res.status(404).send({ message: "card ID not found" });
+      return res.status(404).send({ message: 'card ID not found' });
       // res.send(users);
     })
     .catch((error) => {
@@ -48,7 +48,7 @@ const likeCard = (req, res) =>
       if (card) {
         return res.status(200).send({ data: card });
       }
-      return res.status(404).send({ message: "Card not Found" });
+      return res.status(404).send({ message: 'Card not Found' });
     })
     .catch((error) => {
       res.status(500).send(error);
@@ -63,7 +63,7 @@ const deleteCardLike = (req, res) =>
       if (card) {
         return res.status(200).send({ data: card });
       }
-      return res.status(404).send({ message: "Card not Found" });
+      return res.status(404).send({ message: 'Card not Found' });
     })
     .catch((error) => {
       res.status(500).send(error);

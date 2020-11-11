@@ -9,13 +9,13 @@ import EditAvatar from './EditAvatarPopup';
 import ImagePopup from './ImagePopup';
 import Footer from './Footer';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
-import api from '../utils/Api';
 import Login from './Login';
 import Register from './Register';
 import { Route, Switch, Redirect, useHistory } from 'react-router-dom';
 import ProtectedRoute from './ProtectedRoute';
 import * as auth from '../utils/Auth';
 import InfoToolTip from './InfoToolTip';
+import Api from '../utils/Api';
 
 const App = () => {
   // testing loggedIn
@@ -37,43 +37,71 @@ const App = () => {
   });
   const [cards, setCards] = useState([]);
   const [selectedCard, setSelectedCard] = useState('');
+  const [token, setToken] = useState('');
 
   //
   const history = useHistory();
 
-  //
+  //creating api
+  const api = new Api({
+    baseUrl: 'http://localhost:3002',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'content-type': 'application/json',
+    },
+  });
 
+  // handle token check
+  function handleTokenCheck() {
+    const jwt = localStorage.getItem('jwt');
+    auth
+      .checkToken(jwt)
+      .then((res) => {
+        setToken(jwt);
+        setLoggedIn(true);
+        setUserEmail(res.email);
+      })
+      .then(() => history.push('/'))
+      .catch((err) => {
+        // console.log(err);
+        setIsSuccessful(false);
+        setIsInfoToolTipOpen(true);
+      });
+  }
   //
   const handleCardLike = async (card) => {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
     await api.changeLikeCardStatus(card._id, !isLiked).catch((err) => {
-      console.log(err);
+      //   console.log(err);
     });
 
     setCards(await api.getCardList());
   };
+
   const handleCardClick = (card) => {
     setSelectedCard(card);
   };
 
   useEffect(() => {
-    handleTokenCheck();
-  }, []);
-  useEffect(() => {
     api
       .getUserInfo()
       .then((res) => {
+        console.log(res, 999);
         setCurrentUser(res);
       })
-      .catch((err) => console.log(err));
-  }, []);
+      .catch((err) => console.log(err, 998));
+  }, [userEmail]);
   useEffect(() => {
     api
       .getCardList()
       .then((res) => {
-        setCards(res);
+        console.log('test', res);
+        setCards(res.data);
       })
       .catch((err) => console.log(err));
+  }, [loggedIn]);
+  useEffect(() => {
+    handleTokenCheck();
   }, []);
 
   // deleting card
@@ -105,7 +133,6 @@ const App = () => {
   };
   function handleUpdateAvatar(avatar) {
     setCurrentUser({ ...currentUser, avatar });
-
     api
       .setUserAvatar({ avatar })
       .then(() => {
@@ -135,7 +162,7 @@ const App = () => {
         handleTokenCheck();
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
         setIsSuccessful(false);
         setIsInfoToolTipOpen(true);
       });
@@ -145,6 +172,8 @@ const App = () => {
     auth
       .register(password, email)
       .then((res) => {
+        // { id, email }
+        console.log(1, res);
         if (res.error) {
           setIsSuccessful(false);
           setIsInfoToolTipOpen(true);
@@ -156,21 +185,7 @@ const App = () => {
       })
       .catch((err) => console.log(err));
   }
-  function handleTokenCheck() {
-    const jwt = localStorage.getItem('jwt');
-    auth
-      .checkToken(jwt)
-      .then((res) => {
-        setUserEmail(res.email);
-        setLoggedIn(true);
-      })
-      .then(() => history.push('/'))
-      .catch((err) => {
-        console.log(err);
-        setIsSuccessful(false);
-        setIsInfoToolTipOpen(true);
-      });
-  }
+
   function handleSignout() {
     localStorage.removeItem('jwt');
     setLoggedIn(false);

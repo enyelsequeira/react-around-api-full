@@ -1,4 +1,4 @@
-export const BASE_URL = 'http://localhost:3000';
+export const BASE_URL = 'http://localhost:3002';
 
 export const register = (password, email) => {
   return fetch(`${BASE_URL}/signup`, {
@@ -10,11 +10,11 @@ export const register = (password, email) => {
     body: JSON.stringify({ password, email }),
   })
     .then((response) => {
-      console.log(response, 'auth');
       return response.json();
     })
-    .then((res) => {
-      return res;
+    .then((data) => {
+      console.log('[REGISTER]', data);
+      return data;
     });
 };
 
@@ -28,20 +28,18 @@ export const authorize = (password, email) => {
     body: JSON.stringify({ password, email }),
   })
     .then((response) => {
-      console.log(response, 'auth');
+      // console.log(response, 'auth');
       return response.json();
     })
     .then((data) => {
-      console.log(data);
+      console.log('[LOGIN]', data);
       if (data.token) {
-        console.log(data, 858);
         localStorage.setItem('jwt', data.token);
         return data;
       }
     });
 };
 export const checkToken = (token) => {
-  console.log('[TOKEN] ', token);
   return fetch(`${BASE_URL}/users/me`, {
     method: 'GET',
     headers: {
@@ -54,7 +52,10 @@ export const checkToken = (token) => {
       return res.json();
     })
     .then((data) => {
-      console.log('[DATA] ', data);
+      console.log('[CHECK TOKEN] ', data);
       return data;
+    })
+    .catch((e) => {
+      console.log(`[ERROR] ${e}`);
     });
 };

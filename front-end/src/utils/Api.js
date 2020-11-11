@@ -65,10 +65,6 @@ class Api {
     );
   }
 
-  getAppInfo() {
-    // resolve all the above promises // not needed
-  }
-
   // POST https://around.nomoreparties.co/v1/groupId/cards
   addCard({ name, link }) {
     return fetch(`${this._baseUrl}/cards`, {
@@ -83,15 +79,15 @@ class Api {
     );
   }
 
-  // DELETE https://around.nomoreparties.co/v1/groupId/cards/cardId
   removeCard(cardId) {
-    // console.log(cardId);
+    console.log(cardId);
     return fetch(`${this._baseUrl}/cards/${cardId}`, {
       headers: this._headers,
       method: 'DELETE',
-    }).then((res) =>
-      res.ok ? res.json() : Promise.reject(`error${res.statusText}`)
-    );
+    }).then((res) => {
+      console.log(res, 8585877797789);
+      res.ok ? res.json() : Promise.reject(`error${res.statusText}`);
+    });
   }
 
   // PUT https://around.nomoreparties.co/v1/groupId/cards/likes/cardId

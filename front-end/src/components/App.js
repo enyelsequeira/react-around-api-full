@@ -69,13 +69,15 @@ const App = () => {
       });
   }
   //
-  const handleCardLike = async (card) => {
+  const handleCardLike = (card) => {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
-    await api.changeLikeCardStatus(card._id, !isLiked).catch((err) => {
-      //   console.log(err);
-    });
-
-    setCards(await api.getCardList());
+    api
+      .changeLikeCardStatus(card._id, !isLiked)
+      .then((newCard) => {
+        const newCards = cards.map((c) => (c._id === card._id ? newCard : c));
+        setCards(newCards);
+      })
+      .catch((err) => console.log(err));
   };
 
   const handleCardClick = (card) => {
@@ -108,8 +110,9 @@ const App = () => {
 
   const handleDeleteCard = (cardRemoval) => {
     api
-      .removeCard(cardRemoval._id)
+      .removeCard(cardRemoval.id)
       .then(() => {
+        console.log(cards, '[From the app js]');
         cards.filter((card) => card !== cardRemoval);
       })
       .catch((err) => console.log(err));

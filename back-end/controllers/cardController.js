@@ -1,6 +1,9 @@
 /* eslint-disable comma-dangle */
 /* eslint-disable implicit-arrow-linebreak */
 const Card = require('../models/Card');
+const ValidationError = require('../middleware/errors/ValidationError');
+const NotFoundError = require('../middleware/errors/NotFoundError');
+const ForbiddenError = require('../middleware/errors/ForbiddenError');
 
 // logic to get cards
 function getCards(req, res) {
@@ -9,36 +12,35 @@ function getCards(req, res) {
     .catch((err) => res.status(500).send({ message: err.message }));
 }
 
-const createCard = (req, res) => {
+const createCard = (req, res, next) => {
   const { name, link } = req.body;
-
-  Card.create({ name, link, owner: req.user._id })
+  const owner = req.user._id;
+  Card.create({ name, link, owner })
     .then((card) => {
-      res.status(200).send({ data: card });
-    })
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        res.status(400).send({ message: err.message });
-      } else {
-        res.status(500).send({ message: err.message });
+      console.log(card, 88885858);
+      if (!card) {
+        throw new ValidationError(
+          'invalid data passed to the methods for creating a card'
+        );
       }
-    });
+      res.send(card);
+    })
+    .catch(next);
 };
 
-const deleteCard = (req, res) =>
-  Card.findByIdAndRemove(req.params.id)
-    .then((card) => {
-      if (card) {
-        return res.status(200).send(card);
-      }
-      return res.status(404).send({ message: 'card ID not found' });
-      // res.send(users);
-    })
-    .catch((error) => {
-      res.status(500).send(error);
-    });
+const deleteCard = (req, res, next) => {
+  console.log(req.params, '[coming from delete]');
+  // Card.findByIdAndRemove(req.params._id).then((card) => {
+  //   console.log(card, '[inside delete]');
 
-const likeCard = (req, res) =>
+  //   if (card) {
+  //   }
+  //   return res.status(404).send({ message: 'card ID not found' });
+  // });
+  // .catch(next);
+};
+
+const likeCard = (req, res) => {
   Card.findByIdAndUpdate(
     req.params.id,
     { $addToSet: { likes: req.user._id } },
@@ -53,6 +55,8 @@ const likeCard = (req, res) =>
     .catch((error) => {
       res.status(500).send(error);
     });
+};
+
 const deleteCardLike = (req, res) =>
   Card.findByIdAndUpdate(
     req.params.id,

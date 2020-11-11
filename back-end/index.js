@@ -6,8 +6,7 @@ const userRouter = require('./routes/users');
 const cardRouter = require('./routes/cards');
 const cors = require('cors');
 const { createUser, login } = require('./controllers/userController');
-const { requestLogger } = require('./middleware/logger');
-const { errorLogger } = require('express-winston');
+const { requestLogger, errorLogger } = require('./middleware/logger');
 const auth = require('./middleware/auth');
 
 const app = express();

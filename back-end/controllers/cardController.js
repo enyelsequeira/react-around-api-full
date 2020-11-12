@@ -28,19 +28,22 @@ const createCard = (req, res, next) => {
     .catch(next);
 };
 
-const deleteCard = (req, res, next) => {
-  console.log(req.params, '[coming from delete]');
-  // Card.findByIdAndRemove(req.params._id).then((card) => {
-  //   console.log(card, '[inside delete]');
+const deleteCard = async (req, res, next) => {
+  Card.findById(req.params.cardId).then((card) => {
+    if (String(card.owner) !== req.user._id) {
+      throw new ForbiddenError('User is not authorized for this method');
+    }
+    if (card === null) {
+      throw new NotFoundError('card not found');
+    }
+  });
 
-  //   if (card) {
-  //   }
-  //   return res.status(404).send({ message: 'card ID not found' });
-  // });
-  // .catch(next);
+  Card.findByIdAndDelete(req.params.cardId)
+    .then((card) => res.send({ message: 'Card deleted' }))
+    .catch(next);
 };
 
-const likeCard = (req, res) => {
+const likeCard = (req, res, next) => {
   Card.findByIdAndUpdate(
     req.params.id,
     { $addToSet: { likes: req.user._id } },
@@ -48,16 +51,14 @@ const likeCard = (req, res) => {
   )
     .then((card) => {
       if (card) {
-        return res.status(200).send({ data: card });
+        return res.status(200).send(card);
       }
-      return res.status(404).send({ message: 'Card not Found' });
+      throw new ValidationError('this card was already liked');
     })
-    .catch((error) => {
-      res.status(500).send(error);
-    });
+    .catch(next);
 };
 
-const deleteCardLike = (req, res) =>
+const deleteCardLike = (req, res, next) =>
   Card.findByIdAndUpdate(
     req.params.id,
     { $pull: { likes: req.user._id } },
@@ -65,13 +66,11 @@ const deleteCardLike = (req, res) =>
   )
     .then((card) => {
       if (card) {
-        return res.status(200).send({ data: card });
+        return res.status(200).send(card);
       }
-      return res.status(404).send({ message: 'Card not Found' });
+      throw new ValidationError('this card was not liked yet');
     })
-    .catch((error) => {
-      res.status(500).send(error);
-    });
+    .catch(next);
 
 // PUT /cards/:cardId/likes — like a card
 // DELETE /cards/:cardId/likes — unlike a card

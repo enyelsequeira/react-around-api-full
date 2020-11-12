@@ -12,23 +12,13 @@ const Card = ({ card, onCardClick, onCardLike, onCardDelete }) => {
     onCardLike(card);
   };
 
-  // const handleDeleteCard = (e) => {
-  //   onCardDelete(card);
-  //   e.stopPropagation();
-  // };
   const isOwn = card.owner === currentUser._id;
 
   const cardDeleteButtonClassName = `elements__trash ${
     isOwn ? 'elements__trash_visible' : 'elements__trash_hidden'
   }`;
 
-  // const isLiked = card.likes.some((i) =>{
-  //   i._id === currentUser._id;
-  // )
-  // }
-  const isLiked = card.likes.some((i) => {
-    console.log(i, 'card id');
-  });
+  const isLiked = card.likes.some((card) => card === currentUser._id);
 
   return (
     <li className="elements__item">
@@ -41,7 +31,7 @@ const Card = ({ card, onCardClick, onCardLike, onCardDelete }) => {
         <button
           className={cardDeleteButtonClassName}
           type="button"
-          onClick={onCardDelete}
+          onClick={() => onCardDelete(card)}
         />
       )}
       <div className="elements__info">
@@ -50,7 +40,7 @@ const Card = ({ card, onCardClick, onCardLike, onCardDelete }) => {
           onClick={handleLikeClick}
           className={
             isLiked
-              ? 'elements__image-heart_active elements__image-heart '
+              ? 'elements__image-heart  elements__image-heart_active'
               : 'elements__image-heart'
           }
           type="button"

@@ -44,7 +44,7 @@ const App = () => {
 
   //creating api
   const api = new Api({
-    baseUrl: 'http://localhost:3002',
+    baseUrl: 'http://localhost:3000',
     headers: {
       Authorization: `Bearer ${token}`,
       'content-type': 'application/json',
@@ -70,9 +70,10 @@ const App = () => {
   }
   //
   const handleCardLike = (card) => {
-    const isLiked = card.likes.some((i) => i._id === currentUser._id);
+    const isLiked = card.likes.some((l) => l === currentUser._id);
+    // console.log(isLiked);
     api
-      .changeLikeCardStatus(card._id, !isLiked)
+      .changeLikeCardStatus(card._id, isLiked)
       .then((newCard) => {
         const newCards = cards.map((c) => (c._id === card._id ? newCard : c));
         setCards(newCards);
@@ -108,12 +109,13 @@ const App = () => {
 
   // deleting card
 
-  const handleDeleteCard = (cardRemoval) => {
+  const handleDeleteCard = (card) => {
     api
-      .removeCard(cardRemoval.id)
+      .removeCard(card._id)
       .then(() => {
-        console.log(cards, '[From the app js]');
-        cards.filter((card) => card !== cardRemoval);
+        const newCards = cards.filter((c) => c._id !== card._id);
+
+        setCards(newCards);
       })
       .catch((err) => console.log(err));
   };

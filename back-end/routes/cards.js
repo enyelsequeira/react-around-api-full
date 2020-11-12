@@ -13,7 +13,7 @@ const router = express.Router();
 router.get('/cards', getCards);
 router.post('/cards', createCard);
 router.delete('/cards/:cardId', deleteCard);
-router.put('/cards/:id/likes', likeCard);
-router.delete('cards/:id/likes', deleteCardLike);
+router.put('/cards/likes/:id', likeCard);
+router.delete('/cards/likes/:id', deleteCardLike);
 
 module.exports = router;

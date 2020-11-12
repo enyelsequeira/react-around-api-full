@@ -11,7 +11,7 @@ const auth = require('./middleware/auth');
 
 const app = express();
 // listen to port 3000
-const { PORT = 3002 } = process.env;
+const { PORT = 3000 } = process.env;
 app.use(requestLogger);
 
 app.use(express.json(), cors());

@@ -93,7 +93,7 @@ class Api {
   // PUT https://around.nomoreparties.co/v1/groupId/cards/likes/cardId
   // DELETE https://around.nomoreparties.co/v1/groupId/cards/likes/cardId
   changeLikeCardStatus(cardID, like) {
-    return (like
+    return (!like
       ? fetch(`${this._baseUrl}/cards/likes/${cardID}`, {
           headers: this._headers,
           method: 'PUT',

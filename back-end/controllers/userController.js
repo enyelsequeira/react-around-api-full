@@ -18,18 +18,16 @@ function getUsers(req, res, next) {
 }
 
 // logic to get a specific user info
-function getOneUser(req, res) {
+function getOneUser(req, res, next) {
   return User.findById(req.params.id)
     .then((user) => {
       if (user) {
         return res.status(200).send(user);
       }
-      return res.status(404).send({ message: 'User id found' });
+      throw new NotFoundError('user not found');
       // res.send(users);
     })
-    .catch(() => {
-      res.status(500).send({ message: 'User not found' });
-    });
+    .catch(next);
 }
 
 // creating User
@@ -124,9 +122,7 @@ const getUserInfo = (req, res, next) => {
       if (!user) {
         throw new NotFoundError('user not found');
       }
-
-      console.log('THIS IS OUR USER THAT WE"RE SENDING TO FRONTEND', user);
-
+      // console.log('THIS IS OUR USER THAT WE"RE SENDING TO FRONTEND', user);
       res.send(user);
     })
     .catch(next);

@@ -13,7 +13,7 @@ export const register = (password, email) => {
       return response.json();
     })
     .then((data) => {
-      console.log('[REGISTER]', data);
+      // console.log('[REGISTER]', data);
       return data;
     });
 };
@@ -32,7 +32,7 @@ export const authorize = (password, email) => {
       return response.json();
     })
     .then((data) => {
-      console.log('[LOGIN]', data);
+      // console.log('[LOGIN]', data);
       if (data.token) {
         localStorage.setItem('jwt', data.token);
         return data;
@@ -52,10 +52,10 @@ export const checkToken = (token) => {
       return res.json();
     })
     .then((data) => {
-      console.log('[CHECK TOKEN] ', data);
+      // console.log('[CHECK TOKEN] ', data);
       return data;
     })
     .catch((e) => {
-      console.log(`[ERROR] ${e}`);
+      console.log(e);
     });
 };

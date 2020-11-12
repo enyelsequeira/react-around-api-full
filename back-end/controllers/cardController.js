@@ -17,7 +17,7 @@ const createCard = (req, res, next) => {
   const owner = req.user._id;
   Card.create({ name, link, owner })
     .then((card) => {
-      console.log(card, 88885858);
+      // console.log(card, 88885858);
       if (!card) {
         throw new ValidationError(
           'invalid data passed to the methods for creating a card'

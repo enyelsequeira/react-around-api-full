@@ -17,7 +17,7 @@ const Main = ({
   cards,
 }) => {
   const userInfo = React.useContext(CurrentUserContext);
-  console.log(cards);
+  // console.log(cards);
   return (
     <main>
       <section className="profile">

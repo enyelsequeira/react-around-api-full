@@ -34,6 +34,12 @@ mongoose
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+// only for reviewers
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Server will crash now');
+  }, 0);
+});
 // auth user routes
 app.post('/signin', login);
 app.post('/signup', createUser);

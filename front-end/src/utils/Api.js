@@ -80,12 +80,12 @@ class Api {
   }
 
   removeCard(cardId) {
-    console.log(cardId);
+    // console.log(cardId);
     return fetch(`${this._baseUrl}/cards/${cardId}`, {
       headers: this._headers,
       method: 'DELETE',
     }).then((res) => {
-      console.log(res, 8585877797789);
+      // console.log(res, 8585877797789);
       res.ok ? res.json() : Promise.reject(`error${res.statusText}`);
     });
   }

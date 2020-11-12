@@ -89,16 +89,16 @@ const App = () => {
     api
       .getUserInfo()
       .then((res) => {
-        console.log(res, 999);
+        // console.log(res, 999);
         setCurrentUser(res);
       })
-      .catch((err) => console.log(err, 998));
+      .catch((err) => console.log(err));
   }, [userEmail]);
   useEffect(() => {
     api
       .getCardList()
       .then((res) => {
-        console.log('test', res);
+        // console.log('test', res);
         setCards(res.data);
       })
       .catch((err) => console.log(err));
@@ -178,7 +178,7 @@ const App = () => {
       .register(password, email)
       .then((res) => {
         // { id, email }
-        console.log(1, res);
+        // console.log(1, res);
         if (res.error) {
           setIsSuccessful(false);
           setIsInfoToolTipOpen(true);

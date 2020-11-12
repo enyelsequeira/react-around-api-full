@@ -9,7 +9,7 @@ const extractBearerToken = (header) => {
 module.exports = (req, res, next) => {
   const { authorization } = req.headers;
 
-  console.log(11111, authorization);
+  // console.log(11111, authorization);
 
   if (!authorization || !authorization.startsWith('Bearer ')) {
     throw new AuthError('Authorization Error');
@@ -22,13 +22,13 @@ module.exports = (req, res, next) => {
       token,
       NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-key'
     );
-    console.log(payload, 1);
+    // console.log(payload, 1);
   } catch (err) {
-    console.log(err, 2);
+    // console.log(err, 2);
     throw new AuthError('Authorization Error');
   }
 
   req.user = payload; // adding the payload to the Request object
-  console.log('THIS IS OUR USER', req.user);
+  // console.log('THIS IS OUR USER', req.user);
   next(); // passing the request further along
 };

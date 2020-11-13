@@ -10,7 +10,7 @@ const {
 
 const router = express.Router();
 // router === /cards, (logic)
-router.get('cards', getCards);
+router.get('/cards', getCards);
 router.post('/cards', createCard);
 router.delete('/cards/:cardId', deleteCard);
 router.put('/cards/likes/:id', likeCard);

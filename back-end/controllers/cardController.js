@@ -6,10 +6,10 @@ const NotFoundError = require('../middleware/errors/NotFoundError');
 const ForbiddenError = require('../middleware/errors/ForbiddenError');
 
 // logic to get cards
-function getCards(req, res) {
+function getCards(req, res, next) {
   return Card.find({})
     .then((card) => res.send({ data: card }))
-    .catch((err) => res.status(500).send({ message: err.message }));
+    .catch(next);
 }
 
 const createCard = (req, res, next) => {

@@ -1,6 +1,34 @@
-# react-around-api-full
-The API of "Around the U.S." with authorization and registration handled by the back-end server.
+# Around the U.S.
 
-This repository contains the full API of "Around the U.S." project that features user authorization and user registration and handles cards and users. Please add to this readme:
-* a link to repository with the complete React application which uses this API;
-* a link to the website that hosts your API.
+This is full-stack application using Microsoft Azure to always have the server running.
+
+## Features
+
+### Front End
+
+1. Popup modals for
+   - Updating user info
+   - Adding new cards
+   - Deleting cards (user's own cards only)
+2. Liking/unliking cards
+3. User authentication
+
+### Back End
+
+- Routes for the user
+  - Registration and login
+  - Updating user information and profile picture
+- Routes for the Cards - only if user is AUTHORIZED
+  1. Creating new cards
+  2. like and dislike cards,
+- It authenticates user using JWT
+- Mongo models for users and cards
+- Validation and error handling in case something goes wrong
+
+## Links
+
+The front-end is deployed [here](http://enyelbackend.students.nomoreparties.site/).
+
+### If you want to run the app clone the repo and create your own .env variable as JWT_SECRET = ""
+
+### Navigate to each folder, backend/frontend and run yarn to install dependecies and yarn start

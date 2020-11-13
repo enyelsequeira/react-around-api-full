@@ -22,7 +22,6 @@ module.exports = (req, res, next) => {
       token,
       NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-key'
     );
-    // console.log(payload, 1);
   } catch (err) {
     // console.log(err, 2);
     throw new AuthError('Authorization Error');

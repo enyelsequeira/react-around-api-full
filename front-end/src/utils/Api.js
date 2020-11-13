@@ -15,11 +15,17 @@ class Api {
   getCardList() {
     return fetch(this._baseUrl + '/cards', {
       headers: this._headers,
-    }).then((res) =>
-      res.ok
-        ? res.json()
-        : Promise.reject(`Error!` + res.status + res.statusText)
-    );
+    }).then((res) => {
+      // console.log(res, 'from api');
+      if (res.ok) {
+        // console.log(res, 888);
+        return res.json();
+      }
+      Promise.reject(`Error!` + res.status + res.statusText);
+      // res.ok
+      //   ? res.json()
+      //   :
+    });
   }
 
   // GET https://around.nomoreparties.co/v1/groupId/users/me

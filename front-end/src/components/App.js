@@ -44,7 +44,8 @@ const App = () => {
 
   //creating api
   const api = new Api({
-    baseUrl: 'http://localhost:3000',
+    baseUrl: 'http://enyelbackend.students.nomoreparties.site',
+    // baseUrl: 'http://localhost:3000',
     headers: {
       Authorization: `Bearer ${token}`,
       'content-type': 'application/json',
@@ -98,7 +99,7 @@ const App = () => {
     api
       .getCardList()
       .then((res) => {
-        // console.log('test', res);
+        // console.log(res, 85858);
         setCards(res.data);
       })
       .catch((err) => console.log(err));

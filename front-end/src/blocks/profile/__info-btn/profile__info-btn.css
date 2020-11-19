@@ -1,0 +1,32 @@
+.profile__info-btn{
+    width: 24px;
+    height: 24px;
+    background: #000000;
+    grid-area: pb;
+    align-self: center;
+    margin-bottom: 16px;
+    background-image: url('../../../images/edit.png');
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.profile__info-btn:hover{
+    background-image: url('../../../images/Color2.png');
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+}
+
+@media screen and (max-width: 320px){
+    .profile__info-btn{
+        margin: auto;
+        width: 18px;
+        height: 18px;
+        background: #000000;
+        background-image: url('../../../images/edit.png');
+        background-repeat: no-repeat;
+        background-position: center;
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        box-sizing: border-box;
+    }
+}

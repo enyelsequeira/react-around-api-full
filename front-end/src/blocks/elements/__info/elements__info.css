@@ -1,0 +1,14 @@
+.elements__info{
+    display: flex;
+    max-width: 246px;
+    height: 23px;
+    justify-content: space-between;
+    align-items: center;
+    margin: auto;
+    color: black;
+    padding-bottom: 31px;   
+    position: absolute;
+    bottom:0;
+    left: 21px;
+    right: 15px;
+}

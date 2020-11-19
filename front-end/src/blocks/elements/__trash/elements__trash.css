@@ -1,0 +1,33 @@
+.elements__trash {
+  background-repeat: no-repeat;
+  width: 18px;
+  height: 19.3px;
+  background-size: cover;
+  margin-left: 249px;
+  position: absolute;
+  margin-top: 18px;
+  background-color: Transparent;
+  background-image: url('../../../images/trash.svg');
+  border: none;
+}
+.elements__trash:hover {
+  cursor: pointer;
+  background-color: #00000026;
+}
+
+.elements__trash_hidden {
+  display: none;
+}
+
+.elements__trash_visible {
+  background-repeat: no-repeat;
+  width: 18px;
+  height: 19.3px;
+  background-size: cover;
+  margin-left: 249px;
+  position: absolute;
+  margin-top: 18px;
+  background-color: Transparent;
+  background-image: url('../../../images/trash.svg');
+  border: none;
+}

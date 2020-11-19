@@ -1,0 +1,13 @@
+.elements__item{
+    display: flex;
+    max-width: 282px;
+    height: 361px;
+    border-radius: 10px;
+    background-color: #ffffff;
+    position: relative;
+}
+@media screen and (max-width: 320px){
+    .elements__item{
+        margin-bottom: 20px;
+    }
+}

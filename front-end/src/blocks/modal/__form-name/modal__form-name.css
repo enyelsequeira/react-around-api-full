@@ -1,0 +1,32 @@
+
+.modal__form-name{
+    width: 358px;
+    height: 27.26px;
+    border: none;
+    padding-bottom: 13.26px;
+    border-bottom: 1px solid #000000;
+    margin-bottom: 29.74px;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    color: #000000;
+    /* margin-bottom: 5px; */
+  }
+  @media screen and (max-width: 320px) {
+  .modal__form-name{
+    width: 200px;
+    height: 24px;
+    border: none;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(0, 0, 0, .2);
+    margin-bottom: 20px;
+      font-family: 'Inter', 'Arial', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 15px;
+    color: #C4C4C4;
+  }
+  }

@@ -1,0 +1,70 @@
+@import url('./__close/modal__close.css');
+@import url('./__form-name/modal__form-name.css');
+@import url('./__form-profession/modal__form-profession.css');
+@import url('./__form/modal__form.css');
+@import url('./__info/modal__info.css');
+@import url('./__save-button/modal__save-button.css');
+@import url('./__title/modal__title.css');
+@import url('./__figure-container/modal__figure-container.css');
+@import url('./__figure-image/modal__figure-image.css');
+@import url('./__figure-caption/modal__figure-caption.css');
+@import url('./__save-disabled/modal__save-disabled.css');
+@import url('./__form-error/modal__form-error.css');
+@import url('./__form-error_visible/modal__form-error_visible.css');
+@import url('./__content/modal__content.css');
+@import url('./__content-image/modal__content-image.css');
+@import url('./__content-text/modal__content-text.css');
+.modal {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0px 0px 25px #00000026;
+  border-radius: 10px;
+  left: 0px;
+  top: 0px;
+  background: #1818188f;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s linear 0.5s, opacity 0.5s linear;
+}
+.modal::before {
+  content: '';
+  height: 100%;
+  width: 100%;
+  background: #000000;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0.8;
+  z-index: -1;
+}
+.modal_active {
+  display: block;
+  visibility: visible;
+  opacity: 1;
+  transition-delay: 0s;
+}
+
+@media screen and (max-width: 320px) {
+  .modal {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    display: none;
+    z-index: 1;
+    left: 0px;
+    top: 0px;
+    background: #1818188f;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s linear 0.5s, opacity 0.5s linear;
+  }
+  .modal_active {
+    display: block;
+    visibility: visible;
+    opacity: 1;
+    transition-delay: 0s;
+  }
+}

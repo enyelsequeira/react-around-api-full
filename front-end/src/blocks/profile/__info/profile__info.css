@@ -1,0 +1,17 @@
+.profile__info{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas: 
+    "pn pb"
+    "pt .";
+    margin-top: 18px;
+}
+@media screen and (max-width: 320px){
+    .profile__info{
+        margin: 0;
+        max-width: 280px;
+        grid-template-areas: 
+        "pn pb"
+        "pt pt";
+    }
+}

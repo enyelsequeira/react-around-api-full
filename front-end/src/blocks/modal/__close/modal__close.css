@@ -1,0 +1,37 @@
+
+.modal__close{
+    position: absolute;
+    width: 41px;
+    height: 41px;
+    background: black;
+    background-image: url('../../../images/black.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    right: -41px;
+    top: -41px;
+    border: 0;
+    padding: 0;
+    margin: 0;
+  
+  }
+  
+  .modal__close:hover{
+    background-image: url('../../../images/close2.png');
+    cursor: pointer;
+  }
+  @media screen and (max-width: 320px) {
+  .modal__close{
+    position: absolute;
+    width: 41px;
+    height: 41px;
+    background: black;
+    background-image: url('../../../images/black.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    top: -40px;
+    right: -35px;
+  }
+  } 

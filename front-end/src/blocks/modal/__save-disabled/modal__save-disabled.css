@@ -1,0 +1,6 @@
+.modal__save-disabled{
+    border: 1px solid #000000;
+    border-radius: 2px;
+    opacity: 0.2;
+    margin-top: 31px;
+}

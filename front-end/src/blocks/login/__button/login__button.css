@@ -1,0 +1,41 @@
+.login__button {
+  width: 358px;
+  background: #ffffff;
+  height: 50.15px;
+  border-radius: 2px;
+  margin-bottom: 18px;
+  color: #000000;
+
+  font-family: 'Inter', 'Arial', sans-serif;
+
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: center;
+  margin-top: 218px;
+}
+.login__button:hover {
+  cursor: pointer;
+  background: #ffffff;
+  opacity: 0.85;
+  border-radius: 2px;
+}
+
+@media screen and (max-width: 320px) {
+  .login__button {
+    width: 200px;
+    height: 40px;
+    margin-bottom: 30px;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    background-color: #000000;
+    border-radius: 2px;
+    color: #ffffff;
+    border: none;
+    margin-top: 173px;
+  }
+}

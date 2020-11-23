@@ -32,8 +32,6 @@ mongoose
   )
   .catch((error) => console.log(`${error} did not connect`));
 
-app.use(express.static(path.join(__dirname, 'public')));
-
 // only for reviewers
 app.get('/crash-test', () => {
   setTimeout(() => {

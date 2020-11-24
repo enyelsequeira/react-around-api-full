@@ -8,6 +8,7 @@ const cors = require('cors');
 const { createUser, login } = require('./controllers/userController');
 const { requestLogger, errorLogger } = require('./middleware/logger');
 const auth = require('./middleware/auth');
+const { celebrate, Joi } = require('celebrate');
 
 const app = express();
 // listen to port 3000
@@ -39,8 +40,29 @@ app.get('/crash-test', () => {
   }, 0);
 });
 // auth user routes
-app.post('/signin', login);
-app.post('/signup', createUser);
+app.post(
+  '/signin',
+  celebrate({
+    body: Joi.object().keys({
+      email: Joi.string().required().email(),
+      password: Joi.string().required(),
+    }),
+  }),
+  login
+);
+app.post(
+  '/signup',
+  celebrate({
+    body: Joi.object().keys({
+      name: Joi.string().min(2).max(30),
+      about: Joi.string().min(2).max(30),
+      avatar: Joi.string().uri({ scheme: ['http', 'https'] }),
+      email: Joi.string().required().email(),
+      password: Joi.string().required(),
+    }),
+  }),
+  createUser
+);
 app.use(auth);
 app.use('/', userRouter);
 app.use('/', cardRouter);

@@ -36,24 +36,27 @@ const createUser = (req, res, next) => {
 
   isEmail(email);
 
-  bcrypt
-    .hash(password, 10)
-    .then((hash) => {
-      User.create({ email, password: hash, name, about, avatar })
-        .then((user) => {
-          if (!user) {
-            throw new ValidationError(
-              'invalid data passed to the methods for creating a user'
-            );
-          }
-          res.status(201).send({
-            _id: user._id,
-            email: user.email,
-          });
-        })
-        .catch(next);
-    })
-    .catch(next);
+  bcrypt.hash(password, 10).then((hash) => {
+    User.create({ email, password: hash, name, about, avatar })
+      .then((user) => {
+        if (!user) {
+          throw new ValidationError(
+            'invalid data passed to the methods for creating a user'
+          );
+        }
+        res.status(201).send({
+          _id: user._id,
+          email: user.email,
+        });
+      })
+      .catch((err) => {
+        if (err.name === 'Validation Error' || err.name === 'MongoError') {
+          throw new NotFoundError('Username already exist');
+        }
+        next(err);
+      })
+      .catch(next);
+  });
 };
 
 // Updating profile patching

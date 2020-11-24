@@ -44,8 +44,8 @@ const App = () => {
 
   //creating api
   const api = new Api({
-    baseUrl: 'http://api.enyelbackend.students.nomoreparties.site',
-    // baseUrl: 'http://localhost:3000',
+    // baseUrl: 'http://api.enyelbackend.students.nomoreparties.site',
+    baseUrl: 'http://localhost:3000',
     headers: {
       Authorization: `Bearer ${token}`,
       'content-type': 'application/json',

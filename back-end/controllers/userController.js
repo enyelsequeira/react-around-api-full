@@ -2,13 +2,14 @@
 /* eslint-disable no-undef */
 /* eslint-disable implicit-arrow-linebreak */
 // Keeping the logic for the actual router are used in the controllers
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const User = require('../models/User.js');
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const User = require("../models/User.js");
 const { NODE_ENV, JWT_SECRET } = process.env;
-const ValidationError = require('../middleware/errors/ValidationError');
-const isEmail = require('validator/lib/isEmail');
-const NotFoundError = require('../middleware/errors/NotFoundError');
+const ValidationError = require("../middleware/errors/ValidationError");
+const isEmail = require("validator/lib/isEmail");
+const NotFoundError = require("../middleware/errors/NotFoundError");
+const ConflictError = require("../middleware/errors/ConflictError");
 
 // logic to get users info
 function getUsers(req, res, next) {
@@ -24,7 +25,7 @@ function getOneUser(req, res, next) {
       if (user) {
         return res.status(200).send(user);
       }
-      throw new NotFoundError('user not found');
+      throw new NotFoundError({ message: "User not Found" });
       // res.send(users);
     })
     .catch(next);
@@ -41,7 +42,7 @@ const createUser = (req, res, next) => {
       .then((user) => {
         if (!user) {
           throw new ValidationError(
-            'invalid data passed to the methods for creating a user'
+            "invalid data passed to the methods for creating a user"
           );
         }
         res.status(201).send({
@@ -50,8 +51,8 @@ const createUser = (req, res, next) => {
         });
       })
       .catch((err) => {
-        if (err.name === 'Validation Error' || err.name === 'MongoError') {
-          throw new NotFoundError('Username already exist');
+        if (err.name === "MongoError" || err.code === 11000) {
+          throw new ConflictError("sorry user already exist");
         }
         next(err);
       })
@@ -70,7 +71,7 @@ const updateProfile = (req, res, next) => {
         return res.status(200).send({ data: user });
       }
 
-      throw new NotFoundError('Could not update the users name');
+      throw new NotFoundError("Could not update the users name");
     })
     .catch(next);
 };
@@ -85,7 +86,7 @@ const updateAvatar = (req, res, next) => {
   )
     .then((user) => {
       if (!user) {
-        throw new NotFoundError('user not found');
+        throw new NotFoundError("user not found");
       }
       res.send({ data: user });
     })
@@ -94,7 +95,7 @@ const updateAvatar = (req, res, next) => {
 const login = (req, res, next) => {
   const { email, password } = req.body;
   if (!isEmail(email)) {
-    throw new ValidationError('Incorrect Email or Password');
+    throw new ValidationError("Incorrect Email or Password");
   }
 
   return User.findUserByCredentials(email, password)
@@ -106,10 +107,10 @@ const login = (req, res, next) => {
       // });
       const token = jwt.sign(
         { _id: user._id },
-        NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-key',
-        { expiresIn: '7d' }
+        NODE_ENV === "production" ? JWT_SECRET : "some-secret-key",
+        { expiresIn: "7d" }
       );
-      res.cookie('jwt', token, {
+      res.cookie("jwt", token, {
         maxAge: 3600000 * 24 * 7,
         httpOnly: true,
       });
@@ -123,7 +124,7 @@ const getUserInfo = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
       if (!user) {
-        throw new NotFoundError('user not found');
+        throw new NotFoundError("user not found");
       }
       // console.log('THIS IS OUR USER THAT WE"RE SENDING TO FRONTEND', user);
       res.send(user);

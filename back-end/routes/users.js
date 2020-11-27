@@ -1,5 +1,5 @@
-const express = require('express');
-const { celebrate, Joi } = require('celebrate');
+const express = require("express");
+const { celebrate, Joi, Segments } = require("celebrate");
 
 const router = express.Router();
 const {
@@ -8,71 +8,27 @@ const {
   updateProfile,
   updateAvatar,
   getUserInfo,
-} = require('../controllers/userController');
-const auth = require('../middleware/auth');
+} = require("../controllers/userController");
+const auth = require("../middleware/auth");
 
-router.get(
-  '/users/me',
-  celebrate({
-    headers: Joi.object()
-      .keys({
-        authorization: Joi.string()
-          .regex(
-            /^(Bearer )[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_.+/=]*$/
-          )
-          .required(),
-      })
-      .options({ allowUnknown: true }),
-  }),
-  getUserInfo
-);
+router.get("/users/me", auth, getUserInfo);
 
 // general user routes
+router.get("/users", auth, getUsers);
 router.get(
-  '/users',
+  "/users/:id",
+  auth,
   celebrate({
-    headers: Joi.object()
-      .keys({
-        authorization: Joi.string()
-          .regex(
-            /^(Bearer )[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_.+/=]*$/
-          )
-          .required(),
-      })
-      .options({ allowUnknown: true }),
-  }),
-  getUsers
-);
-router.get(
-  '/users/:id',
-  celebrate({
-    headers: Joi.object()
-      .keys({
-        authorization: Joi.string()
-          .regex(
-            /^(Bearer )[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_.+/=]*$/
-          )
-          .required(),
-      })
-      .options({ allowUnknown: true }),
-    params: Joi.object().keys({
-      id: Joi.string().required().alphanum(),
+    [Segments.PARAMS]: Joi.object({
+      id: Joi.string().required().hex(),
     }),
   }),
   getOneUser
 );
 router.patch(
-  '/users/me',
+  "/users/me",
+  auth,
   celebrate({
-    headers: Joi.object()
-      .keys({
-        authorization: Joi.string()
-          .regex(
-            /^(Bearer )[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_.+/=]*$/
-          )
-          .required(),
-      })
-      .options({ allowUnknown: true }),
     body: Joi.object().keys({
       name: Joi.string().required().min(2).max(30),
       about: Joi.string().required().min(2).max(30),
@@ -81,21 +37,11 @@ router.patch(
   updateProfile
 );
 router.patch(
-  '/users/me/avatar',
+  "/users/me/avatar",
+  auth,
   celebrate({
-    headers: Joi.object()
-      .keys({
-        authorization: Joi.string()
-          .regex(
-            /^(Bearer )[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_.+/=]*$/
-          )
-          .required(),
-      })
-      .options({ allowUnknown: true }),
     body: Joi.object().keys({
-      avatar: Joi.string()
-        .required()
-        .uri({ scheme: ['http', 'https'] }),
+      avatar: Joi.string().required().uri(),
     }),
   }),
   updateAvatar

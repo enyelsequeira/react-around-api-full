@@ -8,7 +8,7 @@
 
 `/routes` — routing files.
 
-All other directories are optional and may be created by the developer if necessary. 
+All other directories are optional and may be created by the developer if necessary.
 
 ## Running the Project
 

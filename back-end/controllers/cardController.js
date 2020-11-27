@@ -1,9 +1,9 @@
 /* eslint-disable comma-dangle */
 /* eslint-disable implicit-arrow-linebreak */
-const Card = require('../models/Card');
-const ValidationError = require('../middleware/errors/ValidationError');
-const NotFoundError = require('../middleware/errors/NotFoundError');
-const ForbiddenError = require('../middleware/errors/ForbiddenError');
+const Card = require("../models/Card");
+const ValidationError = require("../middleware/errors/ValidationError");
+const NotFoundError = require("../middleware/errors/NotFoundError");
+const ForbiddenError = require("../middleware/errors/ForbiddenError");
 
 // logic to get cards
 function getCards(req, res, next) {
@@ -20,7 +20,7 @@ const createCard = (req, res, next) => {
       // console.log(card, 88885858);
       if (!card) {
         throw new ValidationError(
-          'invalid data passed to the methods for creating a card'
+          "invalid data passed to the methods for creating a card"
         );
       }
       res.send(card);
@@ -31,15 +31,15 @@ const createCard = (req, res, next) => {
 const deleteCard = async (req, res, next) => {
   Card.findById(req.params.cardId).then((card) => {
     if (String(card.owner) !== req.user._id) {
-      throw new ForbiddenError('User is not authorized for this method');
+      throw new ForbiddenError("User is not authorized for this method");
     }
     if (card === null) {
-      throw new NotFoundError('card not found');
+      throw new NotFoundError("card not found");
     }
   });
 
   Card.findByIdAndDelete(req.params.cardId)
-    .then((card) => res.send({ message: 'Card deleted' }))
+    .then((card) => res.send({ message: "Card deleted" }))
     .catch(next);
 };
 
@@ -53,7 +53,7 @@ const likeCard = (req, res, next) => {
       if (card) {
         return res.status(200).send(card);
       }
-      throw new ValidationError('this card was already liked');
+      throw new ValidationError("this card was already liked");
     })
     .catch(next);
 };
@@ -68,7 +68,7 @@ const deleteCardLike = (req, res, next) =>
       if (card) {
         return res.status(200).send(card);
       }
-      throw new ValidationError('this card was not liked yet');
+      throw new ValidationError("this card was not liked yet");
     })
     .catch(next);
 

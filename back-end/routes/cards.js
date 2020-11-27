@@ -1,5 +1,5 @@
-const express = require('express');
-const { celebrate, Joi } = require('celebrate');
+const express = require("express");
+const { celebrate, Joi, Segments } = require("celebrate");
 
 const {
   createCard,
@@ -7,83 +7,49 @@ const {
   deleteCard,
   likeCard,
   deleteCardLike,
-} = require('../controllers/cardController');
+} = require("../controllers/cardController");
 
 const router = express.Router();
 // router === /cards, (logic)
-router.get('/cards', getCards);
+router.get("/cards", getCards);
 router.post(
-  '/cards',
+  "/cards",
   celebrate({
-    headers: Joi.object()
-      .keys({
-        authorization: Joi.string()
-          .regex(
-            /^(Bearer )[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_.+/=]*$/
-          )
-          .required(),
-      })
-      .options({ allowUnknown: true }),
     body: Joi.object().keys({
       name: Joi.string().required().min(2).max(30),
-      link: Joi.string()
-        .required()
-        .uri({ scheme: ['http', 'https'] }),
-      likes: Joi.array().items(Joi.string()),
+      link: Joi.string().required().uri(),
     }),
   }),
   createCard
 );
 router.delete(
-  '/cards/:cardId',
+  "/cards/:cardId",
   celebrate({
     headers: Joi.object()
       .keys({
-        authorization: Joi.string()
-          .regex(
-            /^(Bearer )[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_.+/=]*$/
-          )
-          .required(),
+        authorization: Joi.string().required(),
       })
       .options({ allowUnknown: true }),
     params: Joi.object().keys({
-      cardId: Joi.string().required().alphanum(),
+      cardId: Joi.string().required().hex(),
     }),
   }),
   deleteCard
 );
 router.put(
-  '/cards/likes/:id',
+  "/cards/likes/:id",
   celebrate({
-    headers: Joi.object()
-      .keys({
-        authorization: Joi.string()
-          .regex(
-            /^(Bearer )[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_.+/=]*$/
-          )
-          .required(),
-      })
-      .options({ allowUnknown: true }),
-    params: Joi.object().keys({
-      id: Joi.string().required().alphanum(),
+    [Segments.PARAMS]: Joi.object({
+      id: Joi.string().required().hex(),
     }),
   }),
   likeCard
 );
 router.delete(
-  '/cards/likes/:id',
+  "/cards/likes/:id",
   celebrate({
-    headers: Joi.object()
-      .keys({
-        authorization: Joi.string()
-          .regex(
-            /^(Bearer )[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_.+/=]*$/
-          )
-          .required(),
-      })
-      .options({ allowUnknown: true }),
-    params: Joi.object().keys({
-      id: Joi.string().required().alphanum(),
+    [Segments.PARAMS]: Joi.object({
+      id: Joi.string().required().hex(),
     }),
   }),
   deleteCardLike

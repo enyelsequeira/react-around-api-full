@@ -226,7 +226,7 @@ const App = () => {
             onCardClick={(card) => handleCardClick(card)}
           />
           <Route path="/signin">
-            <Header link="/signup" linkText="Sing Up" />
+            <Header link="/signup" linkText="Sign Up" />
             <Login
               heading="Login"
               buttonText="Log in"

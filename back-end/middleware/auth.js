@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const { NODE_ENV, JWT_SECRET } = process.env;
 const AuthError = require('../middleware/errors/AuthError');
 
+
 const extractBearerToken = (header) => {
   return header.replace('Bearer ', '');
 };
@@ -12,7 +13,7 @@ module.exports = (req, res, next) => {
   // console.log(11111, authorization);
 
   if (!authorization || !authorization.startsWith('Bearer ')) {
-    throw new AuthError('Authorization Error');
+    throw new AuthError('Authorization Error', '[the error is coming from here????]');
   }
   const token = extractBearerToken(authorization);
   let payload;

@@ -30,17 +30,15 @@ const createCard = (req, res, next) => {
 
 const deleteCard = async (req, res, next) => {
   Card.findById(req.params.cardId).then((card) => {
-    if (String(card.owner) !== req.user._id) {
-      throw new ForbiddenError("User is not authorized for this method");
-    }
     if (card === null) {
       throw new NotFoundError("card not found");
+    } else if (String(card.owner) !== req.user._id) {
+      throw new ForbiddenError("User is not authorized for this method");
+    } else {
+      Card.findByIdAndDelete(req.params.cardId)
+        .then(() => res.send({ message: "Card deleted" }));
     }
-  });
-
-  Card.findByIdAndDelete(req.params.cardId)
-    .then((card) => res.send({ message: "Card deleted" }))
-    .catch(next);
+  }).catch(next);
 };
 
 const likeCard = (req, res, next) => {

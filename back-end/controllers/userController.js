@@ -4,10 +4,11 @@
 // Keeping the logic for the actual router are used in the controllers
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const isEmail = require("validator/lib/isEmail");
 const User = require("../models/User.js");
+
 const { NODE_ENV, JWT_SECRET } = process.env;
 const ValidationError = require("../middleware/errors/ValidationError");
-const isEmail = require("validator/lib/isEmail");
 const NotFoundError = require("../middleware/errors/NotFoundError");
 const ConflictError = require("../middleware/errors/ConflictError");
 
@@ -33,12 +34,16 @@ function getOneUser(req, res, next) {
 
 // creating User
 const createUser = (req, res, next) => {
-  const { email, password, name, about, avatar } = req.body;
+  const {
+    email, password, name, about, avatar
+  } = req.body;
 
   isEmail(email);
 
   bcrypt.hash(password, 10).then((hash) => {
-    User.create({ email, password: hash, name, about, avatar })
+    User.create({
+      email, password: hash, name, about, avatar
+    })
       .then((user) => {
         if (!user) {
           throw new ValidationError(
@@ -81,7 +86,7 @@ const updateAvatar = (req, res, next) => {
   const { avatar } = req.body;
   User.findByIdAndUpdate(
     req.user._id,
-    { avatar: avatar },
+    { avatar },
     { new: true, runValidators: true }
   )
     .then((user) => {

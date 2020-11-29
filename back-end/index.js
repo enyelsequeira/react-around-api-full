@@ -56,7 +56,7 @@ app.post(
       // avatar: Joi.string().uri({ scheme: ["http", "https"] }),
       email: Joi.string().required().email(),
       password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/),
-    })
+    }),
   }),
   createUser,
 );
@@ -67,7 +67,6 @@ app.use("/", cardRouter);
 app.use(errorLogger);
 // in case route is not defined
 app.use((err, req, res, next) => {
-
   if (err.name === "MongoError" && err.code === 11000) {
     res.status(409).send({ message: "Email already exists" });
   } else if (err.statusCode === undefined) {

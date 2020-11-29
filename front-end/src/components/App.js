@@ -58,13 +58,20 @@ const App = () => {
     auth
       .checkToken(jwt)
       .then((res) => {
-        setToken(jwt);
-        setLoggedIn(true);
-        setUserEmail(res.email);
+        // console.log(res, 8585)
+        if (res.message === "Authorization Error") {
+          setIsSuccessful(false);
+          setIsInfoToolTipOpen(true);
+        } else {
+          setToken(jwt);
+          setLoggedIn(true);
+          setUserEmail(res.email);
+        }
+
       })
       .then(() => history.push('/'))
       .catch((err) => {
-        // console.log(err);
+        console.log(err);
         setIsSuccessful(false);
         setIsInfoToolTipOpen(true);
       });
@@ -178,6 +185,7 @@ const App = () => {
     auth
       .register(password, email)
       .then((res) => {
+        console.log(res.message, 8585)
         // { id, email }
         // console.log(1, res);
         if (res.error) {

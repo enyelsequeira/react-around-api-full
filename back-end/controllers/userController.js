@@ -45,6 +45,7 @@ const createUser = (req, res, next) => {
       email, password: hash, name, about, avatar
     })
       .then((user) => {
+        console.log(user, 858585)
         if (!user) {
           throw new ValidationError(
             "invalid data passed to the methods for creating a user"
@@ -54,12 +55,6 @@ const createUser = (req, res, next) => {
           _id: user._id,
           email: user.email,
         });
-      })
-      .catch((err) => {
-        if (err.name === "MongoError" || err.code === 11000) {
-          throw new ConflictError("sorry user already exist");
-        }
-        next(err);
       })
       .catch(next);
   });

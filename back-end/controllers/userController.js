@@ -47,16 +47,16 @@ const createUser = (req, res, next) => {
           return User.create({
             email, password: hash, name, about, avatar
           })
-            .then((users) => {
-              if (!users) {
+            .then((user) => {
+              if (!user) {
                 throw new ValidationError(
                   "invalid data passed to the methods for creating a user"
                 );
               }
               // console.log("new user", user);
               res.status(201).send({
-                _id: users._id,
-                email: users.email,
+                _id: user._id,
+                email: user.email,
               });
             })
             .catch(next);

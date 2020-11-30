@@ -21,7 +21,7 @@ class Api {
         // console.log(res, 888);
         return res.json();
       }
-      Promise.reject(`Error!` + res.status + res.statusText);
+      Promise.reject(`Error! cardlist` + res.status + res.statusText);
       // res.ok
       //   ? res.json()
       //   :
@@ -35,7 +35,7 @@ class Api {
     }).then((res) =>
       res.ok
         ? res.json()
-        : Promise.reject(`Error!` + res.status + res.statusText)
+        : Promise.reject(`Error! getUserInfo ` + res.status + res.statusText)
     );
   }
 
@@ -101,13 +101,13 @@ class Api {
   changeLikeCardStatus(cardID, like) {
     return (!like
       ? fetch(`${this._baseUrl}/cards/likes/${cardID}`, {
-          headers: this._headers,
-          method: 'PUT',
-        })
+        headers: this._headers,
+        method: 'PUT',
+      })
       : fetch(`${this._baseUrl}/cards/likes/${cardID}`, {
-          headers: this._headers,
-          method: 'DELETE',
-        })
+        headers: this._headers,
+        method: 'DELETE',
+      })
     ).then((res) =>
       res.ok ? res.json() : Promise.reject(`error${res.statusText}`)
     );

@@ -54,14 +54,17 @@ const App = () => {
 
   // handle token check
   function handleTokenCheck() {
+    console.log('handleTokenCheck')
     const jwt = localStorage.getItem('jwt');
+
     auth
       .checkToken(jwt)
       .then((res) => {
-        // console.log(res, 8585)
+        console.log('res checkToken', res)
         if (res.message === "Authorization Error") {
           setIsSuccessful(false);
-          setIsInfoToolTipOpen(true);
+          setLoggedIn(false);
+          throw new Error(res.message);
         } else {
           setToken(jwt);
           setLoggedIn(true);
@@ -69,11 +72,20 @@ const App = () => {
         }
 
       })
+      .then(() => {
+        return api
+          .getUserInfo()
+          .then((res) => {
+            // console.log(res, 999);
+            setCurrentUser(res);
+          })
+          .catch((err) => console.log(err));
+      })
       .then(() => history.push('/'))
       .catch((err) => {
-        console.log(err);
+        console.log('catched error', err);
         setIsSuccessful(false);
-        setIsInfoToolTipOpen(true);
+        // setIsInfoToolTipOpen(true);
       });
   }
   //
@@ -92,25 +104,20 @@ const App = () => {
   const handleCardClick = (card) => {
     setSelectedCard(card);
   };
+  console.log('loggedIn', loggedIn)
 
   useEffect(() => {
-    api
-      .getUserInfo()
-      .then((res) => {
-        // console.log(res, 999);
-        setCurrentUser(res);
-      })
-      .catch((err) => console.log(err));
-  }, [userEmail]);
-  useEffect(() => {
-    api
-      .getCardList()
-      .then((res) => {
-        // console.log(res, 85858);
-        setCards(res.data);
-      })
-      .catch((err) => console.log(err));
+    if (loggedIn) {
+      api
+        .getCardList()
+        .then((res) => {
+          // console.log(res, 85858);
+          setCards(res.data);
+        })
+        .catch((err) => console.log(err));
+    }
   }, [loggedIn]);
+
   useEffect(() => {
     handleTokenCheck();
   }, []);
@@ -186,9 +193,9 @@ const App = () => {
       .register(password, email)
       .then((res) => {
         console.log(res.message, 8585)
-        // { id, email }
-        // console.log(1, res);
-        if (res.error) {
+        // bad way to check, better to plase error in err prop in respose or check statuscode
+        // and you have to draw more datailed error not just something went wrong
+        if (res.message == 'Such user already exists') {
           setIsSuccessful(false);
           setIsInfoToolTipOpen(true);
         } else {

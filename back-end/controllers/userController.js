@@ -33,33 +33,35 @@ function getOneUser(req, res, next) {
 }
 
 // creating User
+// creating User
 const createUser = (req, res, next) => {
-  const {
-    email, password, name, about, avatar
-  } = req.body;
+  const { email, password, name, about, avatar } = req.body;
+  if (isEmail(email)) {
+    bcrypt.hash(password, 10).then((hash) => {
+      User.findOne({ email })
+        .then((user) => {
+          console.log('old user', user)
+          if (user) return res.status(403).send({ message: 'Such user already exists' });
 
-  isEmail(email);
 
-  bcrypt.hash(password, 10).then((hash) => {
-    User.create({
-      email, password: hash, name, about, avatar
-    })
-      .then((user) => {
-        console.log(user, 858585)
-        if (!user) {
-          throw new ValidationError(
-            "invalid data passed to the methods for creating a user"
-          );
-        }
-        res.status(201).send({
-          _id: user._id,
-          email: user.email,
-        });
-      })
-      .catch(next);
-  });
+          return User.create({ email, password: hash, name, about, avatar })
+            .then(user => {
+              if (!user) {
+                throw new ValidationError(
+                  "invalid data passed to the methods for creating a user"
+                );
+              }
+              console.log('new user', user)
+              res.status(201).send({
+                _id: user._id,
+                email: user.email,
+              });
+            })
+            .catch(next);
+        })
+    });
+  }
 };
-
 // Updating profile patching
 const updateProfile = (req, res, next) => {
   User.findByIdAndUpdate(req.user._id, {

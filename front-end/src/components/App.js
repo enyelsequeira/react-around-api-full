@@ -105,6 +105,18 @@ const App = () => {
     setSelectedCard(card);
   };
   console.log('loggedIn', loggedIn)
+  useEffect(() => {
+    if (loggedIn) {
+      api
+        .getUserInfo()
+        .then((res) => {
+          console.log(res, 85858);
+          setCurrentUser(res)
+          // setUserInfo(res.data)
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [loggedIn]);
 
   useEffect(() => {
     if (loggedIn) {

@@ -127,10 +127,11 @@ const login = (req, res, next) => {
 const getUserInfo = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
+      console.log(user)
       if (!user) {
         throw new NotFoundError("user not found");
       }
-      // console.log('THIS IS OUR USER THAT WE"RE SENDING TO FRONTEND', user);
+      console.log('THIS IS OUR USER THAT WE"RE SENDING TO FRONTEND', user);
       res.send(user);
     })
     .catch(next);

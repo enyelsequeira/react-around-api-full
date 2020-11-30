@@ -35,7 +35,7 @@ class Api {
     }).then((res) =>
       res.ok
         ? res.json()
-        : Promise.reject(`Error! getUserInfo ` + res.status + res.statusText)
+        : Promise.reject(`Error!` + res.status + res.statusText)
     );
   }
 

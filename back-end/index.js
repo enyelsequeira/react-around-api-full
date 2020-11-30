@@ -51,11 +51,11 @@ app.post(
   celebrate({
     body: Joi.object().keys({
       //! these objectskeys should not be needed since you are giving default
-      // name: Joi.string().min(2).max(30),
-      // about: Joi.string().min(2).max(30),
-      // avatar: Joi.string().uri({ scheme: ["http", "https"] }),
+      name: Joi.string().min(2).max(30),
+      about: Joi.string().min(2).max(30),
+      avatar: Joi.string().uri({ scheme: ["http", "https"] }),
       email: Joi.string().required().email(),
-      password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/),
+      password: Joi.string().required(),
     }),
   }),
   createUser,

@@ -10,7 +10,6 @@ const User = require("../models/User.js");
 const { NODE_ENV, JWT_SECRET } = process.env;
 const ValidationError = require("../middleware/errors/ValidationError");
 const NotFoundError = require("../middleware/errors/NotFoundError");
-const ConflictError = require("../middleware/errors/ConflictError");
 
 // logic to get users info
 function getUsers(req, res, next) {
@@ -35,30 +34,33 @@ function getOneUser(req, res, next) {
 // creating User
 // creating User
 const createUser = (req, res, next) => {
-  const { email, password, name, about, avatar } = req.body;
+  const {
+    email, password, name, about, avatar
+  } = req.body;
   if (isEmail(email)) {
     bcrypt.hash(password, 10).then((hash) => {
       User.findOne({ email })
         .then((user) => {
-          console.log('old user', user)
-          if (user) return res.status(403).send({ message: 'Such user already exists' });
+          // console.log("old user", user);
+          if (user) return res.status(403).send({ message: "Such user already exists" });
 
-
-          return User.create({ email, password: hash, name, about, avatar })
-            .then(user => {
-              if (!user) {
+          return User.create({
+            email, password: hash, name, about, avatar
+          })
+            .then((users) => {
+              if (!users) {
                 throw new ValidationError(
                   "invalid data passed to the methods for creating a user"
                 );
               }
-              console.log('new user', user)
+              // console.log("new user", user);
               res.status(201).send({
-                _id: user._id,
-                email: user.email,
+                _id: users._id,
+                email: users.email,
               });
             })
             .catch(next);
-        })
+        });
     });
   }
 };

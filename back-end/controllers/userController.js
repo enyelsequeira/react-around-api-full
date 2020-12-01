@@ -10,6 +10,7 @@ const User = require("../models/User.js");
 const { NODE_ENV, JWT_SECRET } = process.env;
 const ValidationError = require("../middleware/errors/ValidationError");
 const NotFoundError = require("../middleware/errors/NotFoundError");
+// const ConflictError = require("../middleware/errors/ConflictError.js");
 
 // logic to get users info
 function getUsers(req, res, next) {
@@ -42,21 +43,22 @@ const createUser = (req, res, next) => {
       User.findOne({ email })
         .then((user) => {
           // console.log("old user", user);
-          if (user) return res.status(403).send({ message: "Such user already exists" });
+          if (user) return res.status(409).send({ message: "Such user already exists" });
 
+          // throw new ConflictError("user already exists")
           return User.create({
             email, password: hash, name, about, avatar
           })
-            .then((user) => {
-              if (!user) {
+            .then((users) => {
+              if (!users) {
                 throw new ValidationError(
                   "invalid data passed to the methods for creating a user"
                 );
               }
               // console.log("new user", user);
               res.status(201).send({
-                _id: user._id,
-                email: user.email,
+                _id: users._id,
+                email: users.email,
               });
             })
             .catch(next);
@@ -127,7 +129,7 @@ const login = (req, res, next) => {
 const getUserInfo = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
-      console.log(user)
+      console.log(user);
       if (!user) {
         throw new NotFoundError("user not found");
       }

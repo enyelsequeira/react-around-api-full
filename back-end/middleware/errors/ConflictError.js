@@ -1,8 +1,8 @@
-class ConflicError extends Error {
+class ConflictError extends Error {
   constructor(message) {
     super(message);
     this.statusCode = 409;
   }
 }
 
-module.exports = ConflicError;
+module.exports = ConflictError;

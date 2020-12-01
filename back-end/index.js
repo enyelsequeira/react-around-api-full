@@ -66,7 +66,21 @@ app.use("/", cardRouter);
 
 app.use(errorLogger);
 // in case route is not defined
-app.use((err, req, res, next) => {
+// this is how they had it in the example
+// app.use((err, req, res, next) => {
+//   // if an error has no status, display 500
+//   const { statusCode = 500, message } = err;
+//   res
+//     .status(statusCode)
+//     .send({
+//       // check the status and display a message based on it
+//       message: statusCode === 500
+//         ? 'An error occurred on the server'
+//         : message
+//     });
+// });
+
+app.use((err, req, res) => {
   if (err.name === "MongoError" && err.code === 11000) {
     res.status(409).send({ message: "Email already exists" });
   } else if (err.statusCode === undefined) {
